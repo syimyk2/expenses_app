@@ -1,10 +1,13 @@
 import { useState } from 'react'
+import { Fragment } from 'react/cjs/react.production.min'
+import ErorModal from '../UI/ErorModal'
 import './ExpenseForm.css'
 
 const ExpenseForm = (props) => {
 	const [title, setTitle] = useState('')
 	const [amount, setAmount] = useState('')
 	const [date, setDate] = useState('')
+	const [modal,setModal]=useState(null)
 	// ар бир инпутка состояние си озгоргондо переоцненка кыл кайра карап чык деп койдук
 
 	const titleChangeHandler = (event) => {
@@ -27,6 +30,14 @@ const ExpenseForm = (props) => {
 
 	const submitHandler = (event) => { // формга прослушка койуп  баттон басылганда ушул функция иштейт
 		event.preventDefault() // сабмиттин дефолтный поведениясын токтотуу учун жазыдык
+		if(title.trim().length === 0|| date.trim().length=== 0|| amount.trim().length===0){
+			setModal({
+				name: 'Empty fields',
+				title: 'Type some expenses no empty, please!',
+				
+			})
+			return
+		}
     const expensesData = { //юстейтте озгоргон премнныйды  жаны обьект тузуп ага берип койдук
         title : title,
         amount : Number(amount), // эмоунтту намбер кылдык чтобы диграмма тузуп жатканда конкатинация болуп кетпеши учун
@@ -36,9 +47,14 @@ const ExpenseForm = (props) => {
     props.onSaveExpensesData(expensesData) // жогоруда тузгон обьектти пропс менен келген функцияга аргумнт катары бердик (лифтинг ап)
 	props.setClose(true)
 	}
+	const onConfirmModal =(e)=>{
+		setModal(null)
+	}
   
 	return (
-		<form onSubmit={submitHandler}>
+		<Fragment>
+			{modal&& <ErorModal message={modal} onConfirm={onConfirmModal}/>}
+			<form onSubmit={submitHandler}>
 			<div className='new-expense__controls'>
 				<div className='new-expense__control'>
 					<label>Title</label>
@@ -78,6 +94,8 @@ const ExpenseForm = (props) => {
 				<button onClick={closeAddExpense}>Cencel</button>
 			</div>
 		</form>
+		</Fragment>
+		
 	)
 }
 
