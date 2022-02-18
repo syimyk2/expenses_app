@@ -18,6 +18,10 @@ const ExpenseForm = (props) => {
 	const dateChangeHandler = (event) => {
 		setDate(event.target.value)
 	}
+	const closeAddExpense =()=>{
+		props.setClose(true)
+  
+	}
 
 	// жогорудагы функциялар прослушканын функцияялары инпуттар менен взаимодействие болгондо иштейт жана интуттардын валуелерин алып беришет
 
@@ -30,8 +34,9 @@ const ExpenseForm = (props) => {
     }
     // console.log(expensesData);
     props.onSaveExpensesData(expensesData) // жогоруда тузгон обьектти пропс менен келген функцияга аргумнт катары бердик (лифтинг ап)
+	props.setClose(true)
 	}
-
+  
 	return (
 		<form onSubmit={submitHandler}>
 			<div className='new-expense__controls'>
@@ -50,7 +55,7 @@ const ExpenseForm = (props) => {
 					<input
 						name='amount'
 						type='number'
-						min='0.1'
+						// min='0.1'
 						step='1'
 						value={amount}
 						onChange={amountChangeHandler}
@@ -70,6 +75,7 @@ const ExpenseForm = (props) => {
 			</div>
 			<div className='new-expense__actions'>
 				<button type='submit'>Add Expense</button>
+				<button onClick={closeAddExpense}>Cencel</button>
 			</div>
 		</form>
 	)
