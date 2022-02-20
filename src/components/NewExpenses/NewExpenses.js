@@ -10,9 +10,13 @@ const NewExpenses = (props) => {
       // console.log(expensesData);
       props.newData(expensesData) // и ошол обьекти дагы родит компонентке пропс аркылуу котордук
   }
+  const changeAddExpense=()=>{
+		props.setShowExpenses(false)
+
+	}
   return (
     <div className="new-expense">
-      <ExpenseForm setClose={props.setClose} onSaveExpensesData = {SaveExpensesDataHandler} />
+     {props.showAdd ? <div><button className= 'btn' onClick={changeAddExpense}> Add New Expenses</button></div> :<ExpenseForm setClose={props.setClose} onSaveExpensesData = {SaveExpensesDataHandler} />}
     </div>
   );
 };
